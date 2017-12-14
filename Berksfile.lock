@@ -1,0 +1,23 @@
+DEPENDENCIES
+  tec-kubernetes
+    path: .
+    metadata: true
+
+GRAPH
+  compat_resource (12.19.0)
+  docker (2.17.0)
+  ohai (5.2.0)
+  poise (2.8.1)
+  poise-archive (1.5.0)
+    poise (~> 2.6)
+  swap_device (1.0.3)
+  sysctl (0.10.2)
+    ohai (>= 4.0)
+  systemd (3.1.5)
+    compat_resource (>= 0.0.0)
+  tec-kubernetes (1.0.0)
+    docker (>= 0.0.0)
+    poise-archive (>= 0.0.0)
+    swap_device (>= 0.0.0)
+    sysctl (>= 0.0.0)
+    systemd (>= 0.0.0)

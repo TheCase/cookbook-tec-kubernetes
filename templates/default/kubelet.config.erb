@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Config
+users:
+- name: kubelet
+  user:
+    token: <%= node['kubernetes']['token'] %>
+clusters:
+- cluster:
+    insecure-skip-tls-verify: true
+    server: <%= node['kubernetes']['master'] %>
+  name: <%= node['kubernetes']['cluster'] %>
+contexts:
+- context:
+    cluster: local
+    user: kubelet
+  name: service-account-context
+current-context: service-account-context
+preferences: {}

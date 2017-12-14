@@ -19,18 +19,25 @@ service 'kubelet' do
   action [ :enable, :start ]
 end
 
-# kubelet-proxy service
-directory '/var/lib/kube-proxy' 
-template '/var/lib/kube-proxy/kubeconfig' do
-  source 'kube-proxy.config.erb'
-  action :create
-  notifies :restart, 'service[kube-proxy]'
-end
-template '/etc/systemd/system/kube-proxy.service' do
-  source 'kube-proxy.service.erb'
-  notifies :restart, 'service[kube-proxy]'
-end
-service 'kube-proxy' do
-  provider Chef::Provider::Service::Systemd
-  action [ :enable, :start ]
+# services
+%w(kubelet kube-proxy).each do |svc|
+  directory "/var/lib/#{svc}"
+  template "/var/lib/#{svc}/kubeconfig" do
+    source "#{svc}.config.erb"
+    action :create
+    notifies :restart, "service[#{svc}]"
+  end
+  template "/etc/systemd/system/#{svc}.service" do
+    source "#{svc}.service.erb"
+    variables ({ 
+      :service => svc,
+      :args    => node['kubernetes']['args'][svc],
+      :after   => node['kubernetes']['after'][svc]
+    })
+    notifies :restart, "service[#{svc}]"
+  end
+  service svc do
+    provider Chef::Provider::Service::Systemd
+    action [ :enable, :start ]
+  end
 end

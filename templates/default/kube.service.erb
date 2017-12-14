@@ -1,0 +1,14 @@
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=<%= @after %>
+Requires=<%= @after %>
+
+[Service]
+WorkingDirectory=/var/lib/<%= @service %>
+ExecStart=<%= node['kubernetes']['root'] %>/kubernetes/server/bin/<%= @service %> <%= @args %>
+Restart=on-failure
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

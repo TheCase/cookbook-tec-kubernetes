@@ -12,7 +12,6 @@ template '/var/lib/kubelet/kubeconfig' do
 end
 template '/etc/systemd/system/kubelet.service' do
   source 'kubelet.service.erb'
-  variables ({ :args => '--logtostderr=true -v=2 --allow-privileged=true --api-servers=http://127.0.0.1 --kubeconfig=/var/lib/kubelet/kubeconfig' })
   notifies :restart, 'service[kubelet]'
 end
 service 'kubelet' do
@@ -29,7 +28,6 @@ template '/var/lib/kube-proxy/kubeconfig' do
 end
 template '/etc/systemd/system/kube-proxy.service' do
   source 'kube-proxy.service.erb'
-  variables ({ :args => '--logtostderr=true -v=2 --master=http://127.0.0.1:8080 --kubeconfig=/var/lib/kube-proxy/kubeconfig' })
   notifies :restart, 'service[kube-proxy]'
 end
 service 'kube-proxy' do

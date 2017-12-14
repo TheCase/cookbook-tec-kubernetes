@@ -4,9 +4,7 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=network.target
 
 [Service]
-EnvironmentFile=-/etc/kubernetes/config
-EnvironmentFile=-/etc/kubernetes/proxy
-ExecStart=<%= node['kubernetes']['root'] %>/kubernetes/server/bin/kube-proxy <%= @args %>
+ExecStart=<%= node['kubernetes']['root'] %>/kubernetes/server/bin/kube-proxy <%= node['kubernetes']['args']['proxy'] %>
 Restart=on-failure
 LimitNOFILE=65536
 

@@ -20,3 +20,19 @@ service 'etcd' do
 end
 
 include_recipe 'tec-kubernetes::services'
+
+# api service
+directory '/var/lib/kube-apiservice'
+#template '/var/lib/kubelet/kubeconfig' do
+#  source 'kubelet.config.erb'
+#  action :create
+#  notifies :restart, 'service[kubelet]'
+#end
+template '/etc/systemd/system/kube-apiservice.service' do
+  source 'kube-apiservice.service.erb'
+  notifies :restart, 'service[kube-apiservice]'
+end
+service 'kube-apiservice' do
+  provider Chef::Provider::Service::Systemd
+  action [ :enable, :start ]
+end

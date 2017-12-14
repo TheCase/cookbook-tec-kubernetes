@@ -1,6 +1,7 @@
 
 default['kubernetes']['args'] = {
- :kubelet => '--logtostderr=true -v=2 --allow-privileged=true --api-servers=http://127.0.0.1 --kubeconfig=/var/lib/kubelet/kubeconfigi --cgroup-driver=cgroupfs',
+ :kubelet   => '--logtostderr=true -v=2 --allow-privileged=true --kubeconfig=/var/lib/kubelet/kubeconfig --cgroup-driver=cgroupfs',
 
- :proxy   => '--logtostderr=true -v=2 --master=http://127.0.0.1:8080 --kubeconfig=/var/lib/kube-proxy/kubeconfig'
+ :proxy     => '--master=http://127.0.0.1:8080',
+ :apiserver => '--insecure-bind-address=127.0.0.1 --etcd-servers=http://127.0.0.1:2379,http://127.0.0.1:4001 --service-cluster-ip-range=10.254.0.0/16 --admission-control=NamespaceLifecycle,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota'
 }

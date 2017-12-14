@@ -18,17 +18,17 @@ service 'etcd' do
 end
 
 # api service
-directory '/var/lib/kube-apiservice'
+directory '/var/lib/kube-apiserver'
 #template '/var/lib/kubelet/kubeconfig' do
 #  source 'kubelet.config.erb'
 #  action :create
 #  notifies :restart, 'service[kubelet]'
 #end
-template '/etc/systemd/system/kube-apiservice.service' do
-  source 'kube-apiservice.service.erb'
-  notifies :restart, 'service[kube-apiservice]'
+template '/etc/systemd/system/kube-apiserver.service' do
+  source 'kube-apiserver.service.erb'
+  notifies :restart, 'service[kube-apiserver]'
 end
-service 'kube-apiservice' do
+service 'kube-apiserver' do
   provider Chef::Provider::Service::Systemd
   action [ :enable, :start ]
 end
